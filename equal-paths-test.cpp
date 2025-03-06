@@ -11,7 +11,7 @@ Node* d;
 Node* e;
 Node* f;
 
-void setNode(Node* n, int key, Node* left=NULL, Node* right=NULL)
+void setNode(Node* n, int key, Node* left=nullptr, Node* right=nullptr)
 {
   n->key = key;
   n->left = left;
@@ -20,39 +20,39 @@ void setNode(Node* n, int key, Node* left=NULL, Node* right=NULL)
 
 void test1(const char* msg)
 {
-  setNode(a,1,NULL, NULL);
-  cout << msg << ": " <<   equalPaths(a) << endl;
+  setNode(a,1,nullptr, nullptr);
+  cout << boolalpha << msg << ": " <<   equalPaths(a) << endl;
 }
 
 void test2(const char* msg)
 {
-  setNode(a,1,b,NULL);
-  setNode(b,2,NULL,NULL);
-  cout << msg << ": " <<   equalPaths(a) << endl;
+  setNode(a,1,b,nullptr);
+  setNode(b,2,nullptr,nullptr);
+  cout << boolalpha << msg << ": " <<   equalPaths(a) << endl;
 }
 
 void test3(const char* msg)
 {
   setNode(a,1,b,c);
-  setNode(b,2,NULL,NULL);
-  setNode(c,3,NULL,NULL);
-  cout << msg << ": " <<   equalPaths(a) << endl;
+  setNode(b,2,nullptr,nullptr);
+  setNode(c,3,nullptr,nullptr);
+  cout << boolalpha << msg << ": " <<   equalPaths(a) << endl;
 }
 
 void test4(const char* msg)
 {
-  setNode(a,1,NULL,c);
-  setNode(c,3,NULL,NULL);
-  cout << msg << ": " <<   equalPaths(a) << endl;
+  setNode(a,1,nullptr,c);
+  setNode(c,3,nullptr,nullptr);
+  cout << boolalpha << msg << ": " <<   equalPaths(a) << endl;
 }
 
 void test5(const char* msg)
 {
   setNode(a,1,b,c);
-  setNode(b,2,NULL,d);
-  setNode(c,3,NULL,NULL);
-  setNode(d,4,NULL,NULL);
-  cout << msg << ": " <<   equalPaths(a) << endl;
+  setNode(b,2,nullptr,d);
+  setNode(c,3,nullptr,nullptr);
+  setNode(d,4,nullptr,nullptr);
+  cout << boolalpha << msg << ": " <<   equalPaths(a) << endl;
 }
 
 int main()

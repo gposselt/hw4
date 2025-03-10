@@ -9,11 +9,11 @@ using namespace std;
 
 // You may add any prototypes of helper functions here
 
-int pathLengthToNull(Node* node);
+int pathLengthToNull(const Node* node);
 
 int max(const int& l, const int& r);
 
-bool equalPaths(Node * root)
+bool equalPaths(const Node * root)
 {
     // Add your code below
 
@@ -34,7 +34,7 @@ bool equalPaths(Node * root)
 
 }
 
-int pathLengthToNull(Node* node) {
+int pathLengthToNull(const Node* node) {
     if (node == nullptr) {
         return 0;
     }

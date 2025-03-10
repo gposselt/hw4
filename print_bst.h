@@ -1,5 +1,9 @@
 #include <cmath>
+#undef private
+#undef public
 #include <iomanip>
+#define private public
+#define protected public
 #include <map>
 #include <vector>
 #include <cstdint>

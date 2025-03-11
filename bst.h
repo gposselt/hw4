@@ -5,6 +5,7 @@
 #include <exception>
 #include <cstdlib>
 #include <deque>
+#include <map>
 #include <utility>
 #include <vector>
 
@@ -204,7 +205,7 @@ int Node<Key, Value>::height() {
         return 1;
     }
     if (leftNull != rightNull) {
-        return (leftNull ? this->right_ : this->left_)->height();
+        return (leftNull ? this->right_ : this->left_)->height() + 1;
     }
 
 
@@ -257,8 +258,12 @@ public:
     virtual void remove(const Key& key);
     void clear();
     bool isBalanced() const;
-    void print() const;
+    virtual void print() const;
     bool empty() const;
+
+    virtual void print_placeholders(std::ios::fmtflags origCoutState, std::map<Key, uint8_t> valuePlaceholders) const;
+
+    Node<Key, Value>* root();
 
     template<typename PPKey, typename PPValue>
     friend void prettyPrintBST(BinarySearchTree<PPKey, PPValue> & tree);
@@ -278,6 +283,8 @@ public:
         bool operator!=(const iterator& rhs) const;
 
         iterator& operator++();
+
+        Node<Key, Value>* getCurrent();
 
     protected:
         friend class BinarySearchTree<Key, Value>;
@@ -412,6 +419,11 @@ BinarySearchTree<Key, Value>::iterator::operator++()
     return *this;
 }
 
+template <typename Key, typename Value>
+Node<Key, Value>* BinarySearchTree<Key, Value>::iterator::getCurrent() {
+    return this->current_;
+}
+
 
 /*
 -------------------------------------------------------------
@@ -448,6 +460,11 @@ template<class Key, class Value>
 bool BinarySearchTree<Key, Value>::empty() const
 {
     return root_ == nullptr;
+}
+
+template <typename Key, typename Value>
+Node<Key, Value>* BinarySearchTree<Key, Value>::root() {
+    return this->root_;
 }
 
 template<typename Key, typename Value>

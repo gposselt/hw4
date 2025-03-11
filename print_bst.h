@@ -8,14 +8,17 @@
 #include <vector>
 #include <cstdint>
 
+
+
 #ifndef PRINT_BST_H
 #define PRINT_BST_H
+
 
 // BST pretty-print function
 // Version 1.2
 
 // maximum depth of tree to actually print.
-#define PPBST_MAX_HEIGHT 6
+#define PPBST_MAX_HEIGHT 12
 
 // Returns the node's distance from the given root.
 // 1 means that it is the root.
@@ -95,6 +98,40 @@ int getSubtreeHeight(Node<Key, Value> * root, int recursionDepth = 1)
 	and should print as much of them as it can.
 
     */
+
+template <typename Key, typename Value>
+void BinarySearchTree<Key, Value>::print_placeholders(std::ios::fmtflags origCoutState, std::map<Key, uint8_t> valuePlaceholders) const {
+    std::cout << "Tree Placeholders:------------------" << std::endl;
+    for(typename std::map<Key, uint8_t>::iterator placeholdersIter = valuePlaceholders.begin(); placeholdersIter != valuePlaceholders.end(); ++placeholdersIter) {
+        std::cout << '[' << std::setfill('0') << std::setw(2) << ((uint16_t)placeholdersIter->second) << "] -> ";
+
+        // print element with original cout flags
+        std::cout.flags(origCoutState);
+        std::cout << '(' << placeholdersIter->first << ", ";
+
+        typename BinarySearchTree<Key, Value>::iterator elementIter = this->find(placeholdersIter->first);
+        if(elementIter == this->end())
+        {
+            std::cout << "<error: lookup failed>";
+        }
+        else
+        {
+            std::cout << elementIter->second;
+        }
+
+        std::cout << ')';
+
+        // if (elementIter !=  this->end)
+        //     if (AVLNode<Key, Value>* cur = dynamic_cast<AVLNode<Key, Value>*>(elementIter.current_)) {
+        //     std::cout << " " << cur->getBalance();
+        // }
+
+
+        std::cout << std::endl;
+
+
+    }
+}
 
 template<typename Key, typename Value>
 void BinarySearchTree<Key, Value>::printRoot (Node<Key, Value>* root) const
@@ -268,29 +305,7 @@ void BinarySearchTree<Key, Value>::printRoot (Node<Key, Value>* root) const
 
     if(!std::is_same<Key, uint8_t>::value) // print placeholder explanations if needed:
     {
-        std::cout << "Tree Placeholders:------------------" << std::endl;
-        for(typename std::map<Key, uint8_t>::iterator placeholdersIter = valuePlaceholders.begin(); placeholdersIter != valuePlaceholders.end(); ++placeholdersIter)
-        {
-            std::cout << '[' << std::setfill('0') << std::setw(2) << ((uint16_t)placeholdersIter->second) << "] -> ";
-
-            // print element with original cout flags
-            std::cout.flags(origCoutState);
-            std::cout << '(' << placeholdersIter->first << ", ";
-
-            typename BinarySearchTree<Key, Value>::iterator elementIter = this->find(placeholdersIter->first);
-            if(elementIter == this->end())
-            {
-                std::cout << "<error: lookup failed>";
-            }
-            else
-            {
-                std::cout << elementIter->second;
-            }
-
-            std::cout << ')' << std::endl;
-
-
-        }
+        print_placeholders(origCoutState, valuePlaceholders);
     }
 
     // restore original cout flags

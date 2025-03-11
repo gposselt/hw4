@@ -131,8 +131,16 @@ template <class Key, class Value>
 class AVLTree : public BinarySearchTree<Key, Value>
 {
 public:
-    virtual void insert (const std::pair<const Key, Value> &new_item); // TODO
-    virtual void remove(const Key& key);  // TODO
+    void insert (const std::pair<const Key, Value> &new_item) override; // TODO
+    void remove(const Key& key) override;  // TODO
+
+    virtual void insert(const Key& k, const Value& v);
+
+    void print_placeholders(std::ios::fmtflags origCoutState, std::map<Key, uint8_t> valuePlaceholders) const override;
+
+    //todo: remove public helper
+    int calcBalance(const Key& node);
+
 protected:
     virtual void nodeSwap( AVLNode<Key,Value>* n1, AVLNode<Key,Value>* n2);
 
@@ -179,7 +187,7 @@ void AVLTree<Key, Value>::insert (const std::pair<const Key, Value> &new_item)
             current->setValue(new_item.second);
             delete val;
             return;
-        }else /*if (current->getRight() != nullptr)*/{
+        }else if (val->getKey() > current->getKey()){
             current = current->getRight();
         }
     }
@@ -198,11 +206,10 @@ void AVLTree<Key, Value>::insert (const std::pair<const Key, Value> &new_item)
 
     val->setBalance(0);
 
-    int8_t balance = p->getBalance();
-    if (balance == -1 || balance == 1) {
-        p->setBalance(0);
+    int8_t opb = p->getBalance();
 
-    }else if (balance == 0) {
+
+    if (opb == 0) {
         int leftHeight  = getHeight(p->getLeft());
         int rightHeight = getHeight(p->getRight());
 
@@ -210,8 +217,16 @@ void AVLTree<Key, Value>::insert (const std::pair<const Key, Value> &new_item)
 
         p->setBalance(newBalance);
 
-        insertFix(p, val);
+        // Key* a = &(new_item.first);
+
+        // std::cout << val->getKey() << ": " << (int)val->getBalance() << "/0" << std::endl;
+        // std::cout << p->getKey() << ": " << (int)p->getBalance() << "/" << newBalance << std::endl;
+        insertFix(p, val/*, dynamic_cast<int*>(&(new_item.first)) && new_item.first == -109*/);
+        return;
+    }else {
+        p->setBalance(0);
     }
+
 
 }
 
@@ -224,6 +239,13 @@ void AVLTree<Key, Value>:: remove(const Key& key)
 {
     // TODO
 }
+
+template <class Key, class Value>
+void AVLTree<Key, Value>::insert(const Key& k, const Value& v) {
+    this->insert(std::make_pair(k, v));
+}
+
+
 
 template<class Key, class Value>
 void AVLTree<Key, Value>::nodeSwap( AVLNode<Key,Value>* n1, AVLNode<Key,Value>* n2)
@@ -259,9 +281,14 @@ void AVLTree<Key, Value>::insertFix(AVLNode<Key, Value>* p, AVLNode<Key, Value>*
     // if (g->getLeft() != nullptr)
     //     leftP = g->getLeft()->getKey() == p->getKey();
 
+    //recalculate g balance because I don't trust my own code to get it right
+    int glh = getHeight(g->getLeft());
+    int grh = getHeight(g->getRight());
+    int gbal = grh - glh;
 
     if (leftP) {
-        g->setBalance(g->getBalance() - 1);
+        // g->updateBalance(-1);
+        g->setBalance(gbal);
 
         //case 1: We're done!
         if (g->getBalance() == 0) {
@@ -278,7 +305,8 @@ void AVLTree<Key, Value>::insertFix(AVLNode<Key, Value>* p, AVLNode<Key, Value>*
             finishLeftInsert(p, n, g);
         }
     }else {
-        g->setBalance(g->getBalance() + 1);
+        // g->updateBalance(1);
+        g->setBalance(gbal);
 
         //case 1: We're done!
         if (g->getBalance() == 0) {
@@ -305,24 +333,31 @@ void AVLTree<Key, Value>::finishLeftInsert(AVLNode<Key, Value>* p, AVLNode<Key, 
     bool zigzag = isZigZag(g, p, n);
     if (zigzag) {
         rotateLeft(p);
-    }
-    rotateRight(g);
-
-    if (zigzag && n->getBalance() != 0) {
-        if (n->getBalance() == -1) {
-            p->setBalance(0);
-            g->setBalance(1);
-        }else if (n->getBalance() == 1) {
-            p->setBalance(-1);
-            g->setBalance(0);
-        }
-        n->setBalance(0);
+        rotateRight(g);
     }else {
+        rotateRight(g);
         p->setBalance(0);
         g->setBalance(0);
-        if (zigzag)
-            n->setBalance(0);
+        // n->setBalance(0);
+
+        return;
     }
+
+
+    if (n->getBalance() == -1) {
+        p->setBalance(0);
+        g->setBalance(1);
+        n->setBalance(0);
+    }else if (n->getBalance() == 0) {
+        p->setBalance(0);
+        g->setBalance(0);
+        n->setBalance(0);
+    }else if (n->getBalance() == 1) {
+        p->setBalance(-1);
+        g->setBalance(0);
+        n->setBalance(0);
+    }
+
 }
 
 template <class Key, class Value>
@@ -330,24 +365,30 @@ void AVLTree<Key, Value>::finishRightInsert(AVLNode<Key, Value>* p, AVLNode<Key,
     bool zigzag = isZigZag(g, p, n);
     if (zigzag) {
         rotateRight(p);
-    }
-    rotateLeft(g);
-
-    if (zigzag && n->getBalance() != 0) {
-        if (n->getBalance() == 1) {
-            p->setBalance(0);
-            g->setBalance(-1);
-        }else if (n->getBalance() == -1) {
-            p->setBalance(1);
-            g->setBalance(0);
-        }
-        n->setBalance(0);
+        rotateLeft(g);
     }else {
+        rotateLeft(g);
         p->setBalance(0);
         g->setBalance(0);
-        if (zigzag)
-            n->setBalance(0);
+        // n->setBalance(0);
+        return;
     }
+
+
+    if (n->getBalance() == 1) {
+        p->setBalance(0);
+        g->setBalance(-1);
+        n->setBalance(0);
+    }else if (n->getBalance() == 0) {
+        p->setBalance(0);
+        g->setBalance(0);
+        n->setBalance(0);
+    }else if (n->getBalance() == -1) {
+        p->setBalance(1);
+        g->setBalance(0);
+        n->setBalance(0);
+    }
+
 }
 
 /**
@@ -359,10 +400,10 @@ void AVLTree<Key, Value>::finishRightInsert(AVLNode<Key, Value>* p, AVLNode<Key,
  */
 template <class Key, class Value>
 bool AVLTree<Key, Value>::isZigZag(AVLNode<Key, Value>* g, AVLNode<Key, Value>* p, AVLNode<Key, Value>* n) {
-    bool gpLeft = /*g->getLeft() == nullptr ||*/ ( g->getLeft() != nullptr && g->getLeft()->getKey() == p->getKey());
-    bool pnLeft = /*p->getLeft() == nullptr ||*/ ( p->getLeft() != nullptr && p->getLeft()->getKey() == n->getKey());
+    int pbal = p->getBalance();
 
-    return gpLeft != pnLeft;
+    return (pbal < 0 && g->getRight() != nullptr && g->getRight()->getKey() == p->getKey()) ||
+            (pbal > 0 && g->getLeft() != nullptr && g->getLeft()->getKey() == p->getKey());
 }
 
 template <class Key, class Value>
@@ -456,5 +497,54 @@ void AVLTree<Key, Value>::rotateLeft(AVLNode<Key, Value>* x) {
 
 }
 
+template <class Key, class Value>
+void AVLTree<Key, Value>::print_placeholders(std::ios::fmtflags origCoutState,
+    std::map<Key, uint8_t> valuePlaceholders) const {
+    std::cout << "Tree Placeholders:------------------" << std::endl;
+    for(typename std::map<Key, uint8_t>::iterator placeholdersIter = valuePlaceholders.begin(); placeholdersIter != valuePlaceholders.end(); ++placeholdersIter) {
+        std::cout << '[' << std::setfill('0') << std::setw(2) << ((uint16_t)placeholdersIter->second) << "] -> ";
+
+        // print element with original cout flags
+        std::cout.flags(origCoutState);
+        std::cout << '(' << placeholdersIter->first << ", ";
+
+        typename BinarySearchTree<Key, Value>::iterator elementIter = this->find(placeholdersIter->first);
+        if(elementIter == this->end())
+        {
+            std::cout << "<error: lookup failed>";
+        }
+        else
+        {
+            std::cout << elementIter->second;
+        }
+
+        std::cout << ')';
+
+        if (elementIter != this->end()) {
+            Node<Key, Value>* cur = elementIter.getCurrent();
+            std::cout << " " << (int)dynamic_cast<AVLNode<Key, Value>*>(cur)->getBalance();
+        }
+
+
+        std::cout << std::endl;
+
+
+    }
+}
+
+template <class Key, class Value>
+int AVLTree<Key, Value>::calcBalance(const Key& node) {
+    typename BinarySearchTree<Key, Value>::iterator h = this->find(node);
+
+    if (h == this->end()) {
+        return -1;
+    }
+
+    int hl = getHeight(dynamic_cast<AVLNode<Key, Value>*>(h.getCurrent()->getLeft()));
+    int hr = getHeight(dynamic_cast<AVLNode<Key, Value>*>(h.getCurrent()->getRight()));
+    int bal = hl - hr;
+    return bal;
+
+}
 
 #endif

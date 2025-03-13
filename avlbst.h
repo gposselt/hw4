@@ -248,7 +248,7 @@ void AVLTree<Key, Value>:: remove(const Key& key)
 
     //alright let's do this >:(
 
-    AVLNode<Key, Value>* n = dynamic_cast<AVLNode<Key, Value>*>(this->find(key).current_);
+    AVLNode<Key, Value>* n = dynamic_cast<AVLNode<Key, Value>*>(this->internalFind(key));
 
     if (n == nullptr) {
         return;

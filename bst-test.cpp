@@ -195,105 +195,105 @@ using namespace std;
 
 
 int main(int argc, char *argv[]) {
-	// // Binary Search Tree tests
-	// BinarySearchTree<char,int> bt;
-	// bt.insert(std::make_pair('a',1));
-	// bt.insert(std::make_pair('b',2));
-	// bt.insert(std::make_pair('v', 3));
-	// bt.insert(std::make_pair('z', 4));
-	// bt.insert(std::make_pair('c', 5));
-	//
-	// cout << "Binary Search Tree contents:" << endl;
-	// for(BinarySearchTree<char,int>::iterator it = bt.begin(); it != bt.end(); ++it) {
-	// 	cout << it->first << " " << it->second << endl;
-	// }
-	// if(bt.find('b') != bt.end()) {
-	// 	cout << "Found b" << endl;
-	// }
-	// else {
-	// 	cout << "Did not find b" << endl;
-	// }
-	// cout << "Erasing b" << endl;
-	// bt.remove('b');
-	//
-	// cout << "Binary Search Tree contents:" << endl;
-	// for(const auto & it : bt) {
-	// 	cout << it.first << " " << it.second << endl;
-	// }
-	//
-	// BinarySearchTree<std::string, std::string> testTree;
-	//
-	// // AVL Tree Tests
-	// AVLTree<char,int> at;
-	// at.insert(std::make_pair('a',1));
-	// at.insert(std::make_pair('b',2));
-	// at.insert(std::make_pair('v', 3));
-	// at.insert(std::make_pair('z', 4));
-	// at.insert(std::make_pair('c', 5));
-	//
-	// cout << "\nAVLTree contents:" << endl;
-	// for(AVLTree<char,int>::iterator it = at.begin(); it != at.end(); ++it) {
-	// 	cout << it->first << " " << it->second << endl;
-	// }
-	// if(at.find('b') != at.end()) {
-	// 	cout << "Found b" << endl;
-	// }
-	// else {
-	// 	cout << "Did not find b" << endl;
-	// }
-	// at.print();
-	// at.insert(std::make_pair('z'+1, 6));
-	// at.print();
+	// Binary Search Tree tests
+	BinarySearchTree<char,int> bt;
+	bt.insert(std::make_pair('a',1));
+	bt.insert(std::make_pair('b',2));
+	bt.insert(std::make_pair('v', 3));
+	bt.insert(std::make_pair('z', 4));
+	bt.insert(std::make_pair('c', 5));
+	
+	cout << "Binary Search Tree contents:" << endl;
+	for(BinarySearchTree<char,int>::iterator it = bt.begin(); it != bt.end(); ++it) {
+		cout << it->first << " " << it->second << endl;
+	}
+	if(bt.find('b') != bt.end()) {
+		cout << "Found b" << endl;
+	}
+	else {
+		cout << "Did not find b" << endl;
+	}
+	cout << "Erasing b" << endl;
+	bt.remove('b');
+	
+	cout << "Binary Search Tree contents:" << endl;
+	for(const auto & it : bt) {
+		cout << it.first << " " << it.second << endl;
+	}
+	
+	BinarySearchTree<std::string, std::string> testTree;
+	
+	// AVL Tree Tests
+	AVLTree<char,int> at;
+	at.insert(std::make_pair('a',1));
+	at.insert(std::make_pair('b',2));
+	at.insert(std::make_pair('v', 3));
+	at.insert(std::make_pair('z', 4));
+	at.insert(std::make_pair('c', 5));
+	
+	cout << "\nAVLTree contents:" << endl;
+	for(AVLTree<char,int>::iterator it = at.begin(); it != at.end(); ++it) {
+		cout << it->first << " " << it->second << endl;
+	}
+	if(at.find('b') != at.end()) {
+		cout << "Found b" << endl;
+	}
+	else {
+		cout << "Did not find b" << endl;
+	}
+	at.print();
+	at.insert(std::make_pair('z'+1, 6));
+	at.print();
 
-	AVLTree<int, int> biggerTest{};
+	// AVLTree<int, int> biggerTest{};
 
-	std::mt19937 randEngine{random_device()()};
+	// std::mt19937 randEngine{random_device()()};
 
-	uniform_int_distribution<int> u = uniform_int_distribution<>(-500, 500);
+	// uniform_int_distribution<int> u = uniform_int_distribution<>(-500, 500);
 
-	int erroring_inputs_0[] = {586566661, 49403963, 326459042, 2055484338, 1860781471, 121131049, 415238228, 1936441487, 2004640315, 1458405564, 1122247569,
-							1424242243, 1286670669, 1950741489};
+	// int erroring_inputs_0[] = {586566661, 49403963, 326459042, 2055484338, 1860781471, 121131049, 415238228, 1936441487, 2004640315, 1458405564, 1122247569,
+	// 						1424242243, 1286670669, 1950741489};
 
-	int erroring_inputs_1[] = {95, -27, -52, -18, -24, 109, -58, -49, 127, 9, -84, 141, -38, -12, 48, -89, 61, 87, 11, -35, -87, 130, 72, 76, -113, 110, -54, 63, -126, -125};
+	// int erroring_inputs_1[] = {95, -27, -52, -18, -24, 109, -58, -49, 127, 9, -84, 141, -38, -12, 48, -89, 61, 87, 11, -35, -87, 130, 72, 76, -113, 110, -54, 63, -126, -125};
 
-	int erroring_inputs_2[] = {132, 109, -130, -42, -98, 52, -58, 50, -73, -118, -125, 91, 66, -144, 37, -133, 106, -18, -16, 112, 26, -129, 110, 42, 62, 88, -83, 63, -145, -43};
+	// int erroring_inputs_2[] = {132, 109, -130, -42, -98, 52, -58, 50, -73, -118, -125, 91, 66, -144, 37, -133, 106, -18, -16, 112, 26, -129, 110, 42, 62, 88, -83, 63, -145, -43};
 
-	int erroring_inputs[] = {-93, 27, 1, -109, 62, 37, -14, 135, -47, -74, 133, -115, 78, -78, 147, -5, 72, -94, 10, 28, 68, -64, 73, -62, 66, 65, -40, 7, -102, 55};
+	// int erroring_inputs[] = {-93, 27, 1, -109, 62, 37, -14, 135, -47, -74, 133, -115, 78, -78, 147, -5, 72, -94, 10, 28, 68, -64, 73, -62, 66, 65, -40, 7, -102, 55};
 
 
 
-    std::set<int> aaa{};
+  //   std::set<int> aaa{};
 
-	const int interesting_value = -102;
+	// const int interesting_value = -102;
 
-	const int inspect_vals[] = {-115, -94, -64};
+	// const int inspect_vals[] = {-115, -94, -64};
 
-    for (const int i : erroring_inputs) {
+  //   for (const int i : erroring_inputs) {
 
-        // int insert = u(randEngine);
-    	// int insert = erroring_inputs[i];
-    	if (i == interesting_value) {
-    		biggerTest.print();
-    	}
-    	int insert = i;
-        std::cout << "inserting: " << insert << " at " << insert << std::endl;
-        biggerTest.insert(insert, insert);
+  //       // int insert = u(randEngine);
+  //   	// int insert = erroring_inputs[i];
+  //   	if (i == interesting_value) {
+  //   		biggerTest.print();
+  //   	}
+  //   	int insert = i;
+  //       std::cout << "inserting: " << insert << " at " << insert << std::endl;
+  //       biggerTest.insert(insert, insert);
 
-        aaa.insert(insert);
+  //       aaa.insert(insert);
 
-    	for (const int& c : inspect_vals) {
-    		if (i == c) {
-    			biggerTest.print();
-    		}
-    	}
+  //   	for (const int& c : inspect_vals) {
+  //   		if (i == c) {
+  //   			biggerTest.print();
+  //   		}
+  //   	}
 
-        if (!verifyAVL<int, int>(biggerTest, aaa)) {
-        	AVLNode<int, int>* nn3 = dynamic_cast<AVLNode<int, int>*>(biggerTest.find(-93).getCurrent());
-        	std::cout << nn3->height() << std::endl;
-        	std::cout << biggerTest.calcBalance(-93) << std::endl;
-            break;
-        }
-    }
+  //       if (!verifyAVL<int, int>(biggerTest, aaa)) {
+  //       	AVLNode<int, int>* nn3 = dynamic_cast<AVLNode<int, int>*>(biggerTest.find(-93).getCurrent());
+  //       	std::cout << nn3->height() << std::endl;
+  //       	std::cout << biggerTest.calcBalance(-93) << std::endl;
+  //           break;
+  //       }
+  //   }
 
 
     // biggerTest.print();
@@ -302,8 +302,8 @@ int main(int argc, char *argv[]) {
 
 
 
-    // cout << "Erasing b" << endl;
-    // at.remove('b');
+    cout << "Erasing b" << endl;
+    at.remove('b');
 
     return 0;
 }

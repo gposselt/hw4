@@ -624,34 +624,22 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
     }else {
         Node<Key, Value>* pred = predecessor(val);
 
-        if (pred->getParent() != val) {
-            // nodeSwap(pred, pred->getLeft());
-            promoteSingleSubtree(pred, pred->getLeft());
-            pred->setLeft(val->getLeft());
-            pred->getLeft()->setParent(pred);
-            // pred->getLeft()->setParent(pred);
+        nodeSwap(val, pred);
+
+        if (val->getLeft() != nullptr) {
+            promoteSingleSubtree(val, val->getLeft());
+        }else if (val->getRight() != nullptr) {
+            promoteSingleSubtree(val, val->getRight());
+        }else {
+            Node<Key, Value>* parent = val->getParent();
+
+            //remove references to deleted memory
+            if (parent != nullptr && parent->getRight() != nullptr && parent->getRight()->getKey() == key) {
+                parent->setRight(nullptr);
+            }else if (parent != nullptr && parent->getLeft() != nullptr && parent->getLeft()->getKey() == key) {
+                parent->setLeft(nullptr);
+            }
         }
-
-        // nodeSwap(val, pred);
-        promoteSingleSubtree(val, pred);
-        pred->setRight(val->getRight());
-        pred->getRight()->setParent(pred);
-
-        /*if (val->getLeft() != nullptr) {
-            pred->setLeft(val->getLeft());
-            pred->getLeft()->setParent(pred);
-        }*/
-
-    }
-
-
-    Node<Key, Value>* parent = val->getParent();
-
-    //remove references to deleted memory
-    if (parent != nullptr && parent->getRight() != nullptr && parent->getRight()->getKey() == key) {
-        parent->setRight(nullptr);
-    }else if (parent != nullptr && parent->getLeft() != nullptr && parent->getLeft()->getKey() == key) {
-        parent->setLeft(nullptr);
     }
 
     delete val;

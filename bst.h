@@ -216,7 +216,9 @@ int Node<Key, Value>::height() {
 template <typename Key, typename Value>
 bool Node<Key, Value>::isBalanced() {
 
-    if (this == nullptr) {
+    const Node<Key, Value>* hhhh = this;
+
+    if (hhhh == nullptr) {
         return true;
     }
 
